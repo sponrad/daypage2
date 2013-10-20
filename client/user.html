@@ -1,0 +1,23 @@
+<template name="user">
+  <h3>
+    <a href="" id="write">Write</a> 
+    <a href="" id="stats">Stats</a> 
+    <a href="" id="social">Social</a> 
+    <a href="" id="settings">Settings</a>
+  </h3>
+  {{#if userwrite}}
+  {{> userwrite }}
+  {{/if}}
+
+  {{#if userstats}}
+  Test Stats
+  {{/if}}
+
+  {{#if usersocial}}
+  Test Social
+  {{/if}}
+
+  {{#if usersettings}}
+  Test Settings
+  {{/if}}
+</template>
