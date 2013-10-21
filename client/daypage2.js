@@ -1,3 +1,6 @@
+Sections = new Meteor.Collection('sections')
+Days = new Meteor.Collection('days')
+
 if (Meteor.isClient) {    
 
     Template.footer.year = function() {
@@ -30,16 +33,28 @@ if (Meteor.isClient) {
 	'click a#write': function(e) {
 	    e.preventDefault();
 	    Session.set("userview", "write");
-	    $(document).ready( 
-		setTimeout(function(){
+	    $(document).ready( function(){
+		Meteor.setTimeout(function(){
+		    $("#thisday").datepicker({
+			onSelect: function(selectedDate){
+			    thisday = new Date(selectedDate);
+			    datestring =  thisday.getMonth()+1 + "/" + thisday.getDate() + "/" + thisday.getFullYear();
+			    $('#thisday').val(datestring);
+			    Session.set("selected_date", datestring);
+			    console.log(Session.get("selected_date"));
+			    $('.writingbox').first().focus();
+			}
+		    });
+
 		    $('.writingbox').autosize();
 		    $('.writingbox').first().focus();
 		    $('#below-writingbox').click( function(e){
 			e.preventDefault();
 			$('.writingbox').first().focus();
 		    });
-		}, 100) 
-	    );
+
+		}, 100);
+	    });
 	},
 	'click a#stats': function(e) {
 	    e.preventDefault();
@@ -60,10 +75,14 @@ if (Meteor.isClient) {
 	var d = new Date().toLocaleDateString();
 	return d;
     }
+    
+    Template.userwrite.content = Sections.find({user: Meteor.userId, date: Session.get("selected-date")}).content;
 
     Template.userwrite.events({
-	'keyup .writingbox': function(e) {
+	'keypress .writingbox': function(e) {
 	    console.log(e.which);
+	    _id = Sections.insert({user: Meteor.userId, date: Session.get("selected-date"), content: this.value});
+	    console.log(_id);
 	}
     });
 

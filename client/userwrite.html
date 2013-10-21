@@ -1,5 +1,5 @@
 <template name="userwrite">
-  <h2>{{ date}} <h2>
-  <textarea class="writingbox" spellcheck="false" placeholder="Write here"></textarea>
+  <input type="text" id="thisday" value="{{ date }}"/>
+  <textarea class="writingbox" spellcheck="false" placeholder="Write here">{{# if content }}{{ content }}{{/if}}</textarea>
   <div id="below-writingbox"></div>
 </template>
