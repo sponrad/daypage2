@@ -1,28 +1,45 @@
+Entries = new Meteor.Collection('entries')
+Days = new Meteor.Collection('days')
+
 if (Meteor.isClient) {    
-    /*
-      TODO
-      When userwrite template is rendered need to:
-      Check to see if an entry exists, grab the first one
-      If one does not exist: create an empty Entry object 
-      
-      save the id of the entry to the session so that later on it can be instantly updated.
-    */
+
+    function setEntry(date){
+	entry = Entries.findOne({user: Meteor.userId(), date: date});
+	if (entry){
+	    Session.set("entry-id", entry._id);
+	    Session.set("selected-date", date);
+	}
+	else {
+	    entry = Entries.insert({user: Meteor.userId(), date: date, content: ""})
+	    Session.set("entry-id", entry._id);
+	    Session.set("selected-date", date);
+	}
+	return entry
+    }
+
     Template.userwrite.rendered = function(){
 	thisday = new Date()
-	var datestring =  thisday.getMonth()+1 + "/" + thisday.getDate() + "/" + thisday.getFullYear();
+	datestring =  thisday.getMonth()+1 + "/" + thisday.getDate() + "/" + thisday.getFullYear();
+	entry = setEntry(datestring);
 
 	Meteor.setTimeout(function(){
 	    $("#thisday").datepicker({
 		onSelect: function(selectedDate){
-		    $('#thisday').val(datestring);
-		    console.log(datestring);
+		    thisday = new Date(selectedDate)
+		    tdatestring =  thisday.getMonth()+1 + "/" + thisday.getDate() + "/" + thisday.getFullYear();
+		    $('#thisday').val(tdatestring);
+		    console.log(tdatestring);
 		    $('.writingbox').first().focus();
-		    Session.set("selected-date", datestring);
+		    entry = setEntry(tdatestring);
+		    $(".writingbox").first().val( entry.content );
+		    $('.writingbox').autosize();
+
 		}
 	    });
 
 	    $('.writingbox').autosize();
 	    $('.writingbox').first().focus();
+	    $(".writingbox").first().val( entry.content );
 	    $('#below-writingbox').click( function(e){
 		e.preventDefault();
 		$('.writingbox').first().focus();
@@ -40,7 +57,18 @@ if (Meteor.isClient) {
     Template.userwrite.events({
 	'keypress .writingbox': function(e) {
 	    console.log(e.which);
+	    date = $("#thisday").val();
+	    entry = setEntry(date);
+	    console.log(Session.get("selected-date"));
+	    entry = Entries.update(entry._id, {$set: {content: $('#writingbox').val()} });
 	},
     });
 
+    Template.userwrite.content = function(){
+	date = $("#thisday").val();
+	entry = setEntry(date);
+	if (entry && entry.content != ""){
+	    return entry.content;
+	}
+    }
 }

@@ -26,6 +26,7 @@
 
 
 <template name="main">
+  {{#if user}}
   <h3>
     <a href="" id="write">Write</a> 
     <a href="" id="search">Search</a>
@@ -51,5 +52,8 @@
 
   {{#if usersettings}}
   Test Settings
+  {{/if}}
+  {{else}}
+  Log in!
   {{/if}}
 </template>

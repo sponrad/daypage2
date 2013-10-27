@@ -1,6 +1,3 @@
-Entries = new Meteor.Collection('entries')
-Days = new Meteor.Collection('days')
-
 if (Meteor.isClient) {    
 
     Template.footer.year = function() {
@@ -60,6 +57,10 @@ if (Meteor.isClient) {
 	}
 
     });
+
+    Template.main.user = function(){
+	return Meteor.user();
+    }
     
 
 }
