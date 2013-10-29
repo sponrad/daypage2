@@ -62,7 +62,7 @@ div#login-button {
     color: #111;
     outline: none;
     resize: none;
-    overflow: auto;
+    overflow: hidden;
     font-size: 26px;
     line-height: 1.6em;
     margin: 0 !important;

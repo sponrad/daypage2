@@ -1,5 +1,12 @@
 <template name="userwrite">
-  <input type="text" id="thisday" value="{{ date }}"/>
-  <textarea name="writingbox" class="writingbox" id="writingbox" spellcheck="false" placeholder="Write here">{{ content }}</textarea>
-  <div id="below-writingbox"></div>
+  <input type="text" id="thisday" value="{{ date }}" title="Change the date here"/> 
+  Number of entries: {{count}}
+  <span id="characters"></span>
+  <span id="words"></span>
+  {{> writingbox }}
+    <div id="below-writingbox"></div>
+</template>
+
+<template name="writingbox">
+<textarea name="writingbox" class="writingbox" id="writingbox" spellcheck="false" placeholder="Write here"></textarea>
 </template>

@@ -57,10 +57,6 @@ if (Meteor.isClient) {
 	}
 
     });
-
-    Template.main.user = function(){
-	return Meteor.user();
-    }
     
 
 }
