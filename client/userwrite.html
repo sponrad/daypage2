@@ -1,11 +1,13 @@
 <template name="userwrite">
-  <input type="text" id="thisday" value="{{ date }}" title="Change the date here"/> 
-  <span id="entrybox">Number of entries today: {{count}}</span>
-  {{# if showentryhover }}
-  {{> entryhover }}
-  {{/if}}
-  <span id="characters"></span>
-  <span id="words"></span>
+  <p>
+    <input type="text" id="thisday" value="{{ date }}" title="Change the date here"/> 
+    <span id="entrybox">Number of entries today: {{count}}</span>
+    {{# if showentryhover }}
+    {{> entryhover }}
+    {{/if}}
+    <span id="characters"></span>
+    <span id="words"></span>
+  </p>
   {{> writingbox }}
     <div id="below-writingbox"></div>
 </template>

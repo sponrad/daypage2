@@ -52,7 +52,8 @@ if (Meteor.isClient) {
 		    $('#writingbox').focus();
 		    entry = setEntry(tdatestring);
 		    $('#writingbox').val( entry.content );
-		    $('#writingbox').autogrow();
+		    $('#writingbox').autosize();
+		    $('#writingbox').trigger('autosize.resize');
 
 		    Countable.live(document.getElementById("writingbox"), function(counter){
 			//console.log(this, counter);
@@ -64,7 +65,9 @@ if (Meteor.isClient) {
 		}
 	    });
 
-	    $('#writingbox').autogrow();
+
+	    $('#writingbox').autosize();
+	    $('#writingbox').trigger('autosize.resize');
 
 	    Countable.live(document.getElementById("writingbox"), function(counter){
 		//console.log(this, counter);
