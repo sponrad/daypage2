@@ -1,6 +1,9 @@
 <template name="userwrite">
   <input type="text" id="thisday" value="{{ date }}" title="Change the date here"/> 
-  Number of entries: {{count}}
+  <span id="entrybox">Number of entries today: {{count}}</span>
+  {{# if showentryhover }}
+  {{> entryhover }}
+  {{/if}}
   <span id="characters"></span>
   <span id="words"></span>
   {{> writingbox }}
@@ -9,4 +12,8 @@
 
 <template name="writingbox">
 <textarea name="writingbox" class="writingbox" id="writingbox" spellcheck="false" placeholder="Write here"></textarea>
+</template>
+
+<template name="entryhover">
+  <span>Entry hover</span>
 </template>

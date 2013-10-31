@@ -1,10 +1,11 @@
 Entries = new Meteor.Collection('entries')
-Days = new Meteor.Collection('days')
+Days = new Meteor.Collection('days') //Why have this if there is a datestamp on entries
 
 if (Meteor.isClient) {    
 
     function setEntry(date){
 	entry = Entries.findOne({user: Meteor.userId(), date: date});
+	//console.log(entry);
 	if (entry){
 	    localStorage.setItem("entry-id", entry._id);
 	    localStorage.setItem("selected-date", date);
@@ -13,8 +14,6 @@ if (Meteor.isClient) {
 	    entry = Entries.insert({
 		user: Meteor.userId(), 
 		date: date, 
-		content: "",
-		length: 0		
 	    });
 	    localStorage.setItem("entry-id", entry._id);
 	    localStorage.setItem("selected-date", date);
@@ -53,16 +52,7 @@ if (Meteor.isClient) {
 		    $('#writingbox').focus();
 		    entry = setEntry(tdatestring);
 		    $('#writingbox').val( entry.content );
-//		    $('#writingbox').autogrow();
-		    $("#writingbox").xautoresize({
-//			force: force, //if true, change overflow to scroll to get correct size, then change back to previous overflow.
-			autoHeightUp: true, //auto increase height to fit content. Use css max-height to set maximum height.
-			autoHeightDown: true, //auto reduce height to fit content. Use css min-height to set minimum height.
-			keyup: true, //enable auto resize for keyup event
-			keydown: true, //enable auto resize for keydown event
-			focus: true, //enable auto resize for focus event
-			change: true //enable auto resize for change event
-		    });
+		    $('#writingbox').autogrow();
 
 		    Countable.live(document.getElementById("writingbox"), function(counter){
 			//console.log(this, counter);
@@ -74,16 +64,7 @@ if (Meteor.isClient) {
 		}
 	    });
 
-//	    $('#writingbox').autogrow();
-	    $("#writingbox").xautoresize({
-//                force: force, //if true, change overflow to scroll to get correct size, then change back to previous overflow.
-                autoHeightUp: true, //auto increase height to fit content. Use css max-height to set maximum height.
-                autoHeightDown: true, //auto reduce height to fit content. Use css min-height to set minimum height.
-                keyup: true, //enable auto resize for keyup event
-                keydown: true, //enable auto resize for keydown event
-                focus: true, //enable auto resize for focus event
-                change: true //enable auto resize for change event
-            });
+	    $('#writingbox').autogrow();
 
 	    Countable.live(document.getElementById("writingbox"), function(counter){
 		//console.log(this, counter);
@@ -108,29 +89,38 @@ if (Meteor.isClient) {
     }
     
     Template.userwrite.events({
-	'change .writingbox': function(e) {
+	'keypress #writingbox': function(e){
 	    console.log(e.which);
 	    date = $("#thisday").val();
 	    entry = setEntry(date);
 	    console.log(localStorage.getItem("selected-date"));
-	    entry = Entries.update(
-		entry._id, 
-		{$set: {content: $('#writingbox').val()}}
-	    );
+	    Meteor.setTimeout( function(){
+		Entries.update(
+		    entry._id, 
+		    {$set: {content: $('#writingbox').val()}}
+		);
+		console.log(entry);
+	    }, 2000);
 	},
-	'keypress .writingbox': function(e){
-	    date = $("#thisday").val();
-	    entry = setEntry(date);
-	    entry = Entries.update(
-		entry._id, 
-		{$set: {length: $('#writingbox').val().length}}
-	    );
-	    
+
+	'click #entrybox': function(e){
+	    val = Session.get("entry-hover");
+	    if (val){
+		Session.set("entry-hover", false);
+	    }
+	    else{
+		Session.set("entry-hover", true);
+	    }
 	}
     });
 
     Template.userwrite.count = function(){
 	date = $("#thisday").val();
-	return Entries.find({user: Meteor.userId(), date: date}).count();
+	count = Entries.find({user: Meteor.userId(), date: date}).count(); 
+	return count;
+    }
+
+    Template.userwrite.showentryhover = function(){
+	return Session.get("entry-hover")
     }
 }
