@@ -115,3 +115,7 @@ div#login-button {
 #entry-save:hover {
     background: #fafafa;
 }
+
+#entrylist {
+    position: absolute;
+}

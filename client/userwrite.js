@@ -157,4 +157,26 @@ if (Meteor.isClient) {
 	    
 	}
     });
+
+    Template.entryselect.events({
+	'click #entryselect': function(e){
+	    if (Session.equals("show-entries", true)){
+		Session.set("show-entries", false);
+	    }
+	    else {
+		Session.set("show-entries", true);
+	    }
+	}
+    });
+
+    Template.entryselect.entries = function(){
+	if (Session.equals("show-entries", false)){
+	    return false;
+	}
+	else{
+	    date = $("#thisday").val();
+	    entries =  Entries.find({user: Meteor.userId(), date: date}).fetch(); 
+	    return entries;
+	}
+    }
 }
