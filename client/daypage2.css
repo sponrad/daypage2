@@ -85,3 +85,15 @@ div#login-button {
     box-shadow: none;
     height: auto;
 }
+
+#entryselect{
+    float: right;
+    border: solid 1px white;
+    padding: 2px;
+}
+
+#entryselect:hover{
+    background: #ffa;
+    border: dashed 1px gray;
+    cursor: pointer;
+}

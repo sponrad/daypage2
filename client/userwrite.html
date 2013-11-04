@@ -1,5 +1,6 @@
 <template name="userwrite">
   <p>
+    {{> entryselect }}
     <input type="text" id="thisday" value="{{ date }}" title="Change the date here"/> 
     <span id="entrybox">Number of entries today: {{count}}</span>
     {{# if showentryhover }}
@@ -18,4 +19,9 @@
 
 <template name="entryhover">
   <span>Entry hover</span>
+</template>
+
+<template name="entryselect">
+  <div id="entryselect">X entries, click to select
+  </div>
 </template>
