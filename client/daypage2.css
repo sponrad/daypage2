@@ -97,3 +97,21 @@ div#login-button {
     border: dashed 1px gray;
     cursor: pointer;
 }
+
+#entry-saved{
+    display: inline-block;
+    color: #ccc;
+    padding: 5px;
+}
+
+#entry-save{
+    display: inline-block;
+    color: green;
+    background: #eee;
+    padding: 5px;
+    cursor: pointer;
+}
+
+#entry-save:hover {
+    background: #fafafa;
+}

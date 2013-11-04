@@ -2,6 +2,7 @@
   <p>
     {{> entryselect }}
     <input type="text" id="thisday" value="{{ date }}" title="Change the date here"/> 
+    {{> entrysave }}
     <span id="entrybox">Number of entries today: {{count}}</span>
     {{# if showentryhover }}
     {{> entryhover }}
@@ -10,7 +11,7 @@
     <span id="words"></span>
   </p>
   {{> writingbox }}
-    <div id="below-writingbox"></div>
+  <div id="below-writingbox"></div>
 </template>
 
 <template name="writingbox">
@@ -24,4 +25,9 @@
 <template name="entryselect">
   <div id="entryselect">X entries, click to select
   </div>
+</template>
+
+<template name="entrysave">
+  <div id="entry-saved">Saved</div>
+  <div id="entry-save" style="display: none;">Save</div>
 </template>

@@ -92,19 +92,30 @@ if (Meteor.isClient) {
     }
     
     Template.userwrite.events({
-	'keypress #writingbox': function(e){
-	    console.log(e.which);
-	    date = $("#thisday").val();
-	    entry = setEntry(date);
-	    console.log(localStorage.getItem("selected-date"));
-	    Meteor.setTimeout( function(){
-		Entries.update(
-		    entry._id, 
-		    {$set: {content: $('#writingbox').val()}}
-		);
-		console.log(entry);
-	    }, 2000);
+	'keydown #writingbox': function(e){	    
+	    if (e.keyCode == 83 && (navigator.platform.match("Mac") ? e.metaKey : e.ctrlKey)){
+		e.preventDefault();
+		console.log("save event");
+		date = $("#thisday").val();
+		entry = setEntry(date);
+		console.log(localStorage.getItem("selected-date"));
+		Meteor.setTimeout( function(){
+		    Entries.update(
+			entry._id, 
+			{$set: {content: $('#writingbox').val()}}
+		    );
+		    console.log(entry);
+		    $("#entry-saved").show();
+		    $("#entry-save").hide();
+		}, 100);
+	    }
 	},
+
+	'keypress #writingbox': function(e){
+	    $("#entry-saved").hide();
+	    $("#entry-save").show();
+	},
+
 
 	'click #entrybox': function(e){
 	    val = Session.get("entry-hover");
@@ -124,6 +135,26 @@ if (Meteor.isClient) {
     }
 
     Template.userwrite.showentryhover = function(){
-	return Session.get("entry-hover")
+	return Session.get("entry-hover");
     }
+
+    Template.entrysave.events({
+	'click #entry-save': function(e){
+	    console.log("save event");
+	    date = $("#thisday").val();
+	    entry = setEntry(date);
+	    console.log(localStorage.getItem("selected-date"));
+	    Meteor.setTimeout( function(){
+		Entries.update(
+		    entry._id, 
+		    {$set: {content: $('#writingbox').val()}}
+		);
+		console.log(entry);
+		$("#entry-saved").show();
+		$("#entry-save").hide();
+		$('#writingbox').focus();
+	    }, 100);
+	    
+	}
+    });
 }
