@@ -84,10 +84,11 @@ div#login-button {
     border: none;
     box-shadow: none;
     height: auto;
+    cursor: pointer;
 }
 
 #entryselect{
-    float: right;
+    display: inline-block;
     border: solid 1px white;
     padding: 2px;
 }
@@ -99,12 +100,14 @@ div#login-button {
 }
 
 #entry-saved{
+    float: right;
     display: inline-block;
     color: #ccc;
     padding: 5px;
 }
 
 #entry-save{
+    float: right;
     display: inline-block;
     color: green;
     background: #eee;
@@ -118,4 +121,11 @@ div#login-button {
 
 #entrylist {
     position: absolute;
+    background: white;
+}
+
+#counts {
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
 }

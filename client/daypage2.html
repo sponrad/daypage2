@@ -25,7 +25,6 @@
 
 
 <template name="main">
-  <h1 style="display: inline;">Daypage</h1>
   {{#if currentUser}}
   <h3 style="display: inline;">
     <a href="" id="write">Write</a> 
@@ -40,7 +39,7 @@
   {{/if}}
 
   {{#if usersearch}}
-  Search
+  {{> usersearch }}
   {{/if}}
 
   {{#if userstats}}
@@ -55,6 +54,7 @@
   Test Settings
   {{/if}}
   {{else}}
-  Log in!
+  <h1 style="display: inline; text-align: center;">Daypage</h1>
+  <p>Log in to make this actually do something</p>
   {{/if}}
 </template>

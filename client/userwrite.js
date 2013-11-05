@@ -116,26 +116,15 @@ if (Meteor.isClient) {
 	    $("#entry-save").show();
 	},
 
-
-	'click #entrybox': function(e){
-	    val = Session.get("entry-hover");
-	    if (val){
-		Session.set("entry-hover", false);
-	    }
-	    else{
-		Session.set("entry-hover", true);
-	    }
+	'click #entryselect': function(e){
+	    $("#entrylist").toggle();
 	}
     });
 
-    Template.userwrite.count = function(){
+    Template.userwrite.entrycount = function(){
 	date = $("#thisday").val();
 	count = Entries.find({user: Meteor.userId(), date: date}).count(); 
 	return count;
-    }
-
-    Template.userwrite.showentryhover = function(){
-	return Session.get("entry-hover");
     }
 
     Template.entrysave.events({
@@ -159,24 +148,14 @@ if (Meteor.isClient) {
     });
 
     Template.entryselect.events({
-	'click #entryselect': function(e){
-	    if (Session.equals("show-entries", true)){
-		Session.set("show-entries", false);
-	    }
-	    else {
-		Session.set("show-entries", true);
-	    }
-	}
     });
 
     Template.entryselect.entries = function(){
-	if (Session.equals("show-entries", false)){
-	    return false;
-	}
-	else{
-	    date = $("#thisday").val();
-	    entries =  Entries.find({user: Meteor.userId(), date: date}).fetch(); 
-	    return entries;
-	}
+	date = localStorage.setItem("selected-date", date);
+	entries = new Array();
+	tempentries =  Entries.find({user: Meteor.userId(), date: date}).map(function(){
+	    entries.push([this._id, this.content]);
+	    }); 	
+	return entries;
     }
 }
