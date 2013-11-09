@@ -41,6 +41,10 @@ if (Meteor.isClient) {
 	entry = setEntry(datestring);
 	$('#writingbox').focus();
 	$("#writingbox").val( entry.content );
+	
+	$(document).click( function(){
+	    $("#entrylist").hide();	    
+	});
 
 	Meteor.setTimeout(function(){
 	    $("#thisday").datepicker({
@@ -117,7 +121,8 @@ if (Meteor.isClient) {
 	},
 
 	'click #entryselect': function(e){
-	    $("#entrylist").toggle();
+	    e.stopPropagation();
+	    $("#entrylist").show();
 	}
     });
 
@@ -148,6 +153,9 @@ if (Meteor.isClient) {
     });
 
     Template.entryselect.events({
+	'click #entrylist': function(e){
+	    e.stopPropagation();
+	}
     });
 
     Template.entryselect.entries = function(){

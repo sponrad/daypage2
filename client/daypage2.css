@@ -88,6 +88,8 @@ div#login-button {
 }
 
 #entryselect{
+    background: white;
+    position: absolute;
     display: inline-block;
     float: right;
     border: solid 1px white;
@@ -95,9 +97,15 @@ div#login-button {
 }
 
 #entryselect:hover{
-    background: #ffa;
-    border: dashed 1px gray;
     cursor: pointer;
+    box-shadow: 2px 2px 5px #888888;
+}
+
+#entrylist {
+}
+
+#entrylist .entryitem:hover{
+    background-color: #ffa;
 }
 
 #entry-saved{
@@ -124,11 +132,6 @@ div#login-button {
 
 #entry-save:hover {
     background: #fafafa;
-}
-
-#entrylist {
-    position: absolute;
-    background: white;
 }
 
 #counts {
