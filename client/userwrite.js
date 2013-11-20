@@ -9,6 +9,8 @@ if (Meteor.isClient) {
 	if (entry){
 	    localStorage.setItem("entry-id", entry._id);
 	    localStorage.setItem("selected-date", date);
+	    Session.set("entry-id", entry._id);
+	    Session.set("selected-date", date);
 	}
 	else {
 	    entry = Entries.insert({
@@ -17,6 +19,8 @@ if (Meteor.isClient) {
 	    });
 	    localStorage.setItem("entry-id", entry._id);
 	    localStorage.setItem("selected-date", date);
+	    Session.set("entry-id", entry._id);
+	    Session.set("selected-date", date);
 	}
 	return entry
     }
@@ -102,7 +106,6 @@ if (Meteor.isClient) {
 		console.log("save event");
 		date = $("#thisday").val();
 		entry = setEntry(date);
-		console.log(localStorage.getItem("selected-date"));
 		Meteor.setTimeout( function(){
 		    Entries.update(
 			entry._id, 
@@ -126,18 +129,11 @@ if (Meteor.isClient) {
 	}
     });
 
-    Template.userwrite.entrycount = function(){
-	date = $("#thisday").val();
-	count = Entries.find({user: Meteor.userId(), date: date}).count(); 
-	return count;
-    }
-
     Template.entrysave.events({
 	'click #entry-save': function(e){
 	    console.log("save event");
 	    date = $("#thisday").val();
 	    entry = setEntry(date);
-	    console.log(localStorage.getItem("selected-date"));
 	    Meteor.setTimeout( function(){
 		Entries.update(
 		    entry._id, 
@@ -155,15 +151,23 @@ if (Meteor.isClient) {
     Template.entryselect.events({
 	'click #entrylist': function(e){
 	    e.stopPropagation();
+	},
+
+	'click .entryitem': function(e){
+	    console.log( e.currentTarget.id );
 	}
     });
 
     Template.entryselect.entries = function(){
-	date = localStorage.setItem("selected-date", date);
+	date = localStorage.getItem("selected-date");
+//	date = Session.get("selected-date");
 	entries = new Array();
-	tempentries =  Entries.find({user: Meteor.userId(), date: date}).map(function(){
-	    entries.push([this._id, this.content]);
-	    }); 	
+	Entries.find({user: Meteor.userId(), date: date}).forEach(function(entry){
+	    entries.push({
+		"_id": entry._id,
+		"content": entry.content
+	    });
+	}); 	
 	return entries;
     }
 }

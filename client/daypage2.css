@@ -109,21 +109,21 @@ div#login-button {
 }
 
 #entry-saved{
-    position: fixed;
+/*    position: fixed;
     top: 10px;
-    right: 10px;
-/*    float: right;
-    display: inline-block;*/
+    right: 10px; */
+    float: right;
+    display: inline-block;
     color: #ccc;
     padding: 5px;
 }
 
 #entry-save{
-    position: fixed;
+/*    position: fixed;
     top: 10px;
-    right: 10px;
-/*    float: right;
-    display: inline-block; */
+    right: 10px; */
+    float: right;
+    display: inline-block;
     color: green;
     background: #eee;
     padding: 5px;
