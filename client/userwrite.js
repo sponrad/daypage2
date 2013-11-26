@@ -3,6 +3,21 @@ Days = new Meteor.Collection('days') //Why have this if there is a datestamp on 
 
 if (Meteor.isClient) {    
 
+    Template.sideBar.date = function(){
+	var d = new Date().toLocaleDateString();
+	return d;
+    }
+
+    Template.editor.rendered = function(){
+	var editor = new wysihtml5.Editor("writingbox", {
+	    toolbar:      "toolbar",
+	    stylesheets:  "wysihtml5-stylesheet.css",
+	    parserRules:  wysihtml5ParserRules
+	});	
+    }
+
+////////////////////////////////stuff below may not stay
+
     function setEntry(date){
 	entry = Entries.findOne({user: Meteor.userId(), date: date});
 	//console.log(entry);
@@ -25,21 +40,11 @@ if (Meteor.isClient) {
 	return entry
     }
 
-    function countWords(str){
-	var count = 0,
-	i,
-	foo = str.length;
-
-	for (i = 0; i <= foo; i++) {
-	    if (str.charAt(i) == " ") {
-		count ++;
-	    }
-
-	}
-	return (count + 1);  
-    }
-
     Template.userwrite.rendered = function(){
+	var editor = new wysihtml5.Editor("writingbox", {
+	    toolbar: "wysihtml5-toolbar",
+	    parserRules: wysihtml5ParserRules
+	    });
 	thisday = new Date()
 	datestring =  thisday.getMonth()+1 + "/" + thisday.getDate() + "/" + thisday.getFullYear();
 	entry = setEntry(datestring);
@@ -60,8 +65,8 @@ if (Meteor.isClient) {
 		    $('#writingbox').focus();
 		    entry = setEntry(tdatestring);
 		    $('#writingbox').val( entry.content );
-		    $('#writingbox').autosize();
-		    $('#writingbox').trigger('autosize.resize');
+		    //$('#writingbox').autosize();
+		    //$('#writingbox').trigger('autosize.resize');
 
 		    Countable.live(document.getElementById("writingbox"), function(counter){
 			//console.log(this, counter);
@@ -74,8 +79,8 @@ if (Meteor.isClient) {
 	    });
 
 
-	    $('#writingbox').autosize();
-	    $('#writingbox').trigger('autosize.resize');
+	    //$('#writingbox').autosize();
+	    //$('#writingbox').trigger('autosize.resize');
 
 	    Countable.live(document.getElementById("writingbox"), function(counter){
 		//console.log(this, counter);
@@ -94,11 +99,7 @@ if (Meteor.isClient) {
 	
     }
 
-    Template.userwrite.date = function(){
-	var d = new Date().toLocaleDateString();
-	return d;
-    }
-    
+  
     Template.userwrite.events({
 	'keydown #writingbox': function(e){	    
 	    if (e.keyCode == 83 && (navigator.platform.match("Mac") ? e.metaKey : e.ctrlKey)){

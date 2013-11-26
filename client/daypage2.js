@@ -1,10 +1,5 @@
 if (Meteor.isClient) {    
 
-    Template.footer.year = function() {
-	var d = new Date().getFullYear();
-	return d;
-    }
-
     Template.main.userwrite = function(){
 	if (Session.get("userview") == "write"){
 	    return true;
@@ -57,7 +52,6 @@ if (Meteor.isClient) {
 	}
 
     });
-    
 
 }
 

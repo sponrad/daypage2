@@ -3,68 +3,81 @@
 </head>
 
 <body>
-  <div id="wrap">
-    <!-- Begin page content -->
-
-    <div class="container">
-      <div id="login-button">{{loginButtons align="right"}}</div>
-
-<!--      <div class="page-header">
-      </div> -->
-
-      {{> main }}
-      
-    </div>
-
-
-    <div id="push"></div>
-  </div>
-
-  {{> footer }}
+ {{> main }}
 </body>
 
-<template name="footer">
-  <div id="footer">
-    <div class="container">
-      <p class="muted credit">Daypage &copy;{{year}}</p>
+<template name="main">
+  <div id="wrapper">
+    
+    <div id="sidebar-wrapper">
+      <h1>Daypage</h1>
+      <p>{{ loginButtons }}</p>
+      {{> sideBar }}
     </div>
+    
+    <div id="page-content-wrapper">
+      {{> editor }}
+    </div>
+    
   </div>
 </template>
 
-<template name="main">
-  {{#if currentUser}}
-  <h3 style="display: inline;">
-    <a href="" id="write">Write</a> 
-     | 
-    <a href="" id="search">Search</a>
-<!--    <a href="" id="stats">Stats</a> 
-    <a href="" id="social">Social</a> 
-    <a href="" id="settings">Settings</a> -->
-  </h3>
-  <br>
-  {{#if userwrite}}
-  {{> userwrite }}
-  {{/if}}
+<template name="sideBar">
+{{#if currentUser}}
+<input id="searchBox" type="text" placeholder="Search" />
+<input type="text" id="thisday" value="{{ date }}" title="Change the date here"/>
+<ul>
+  <li>Entries listed here</li>
+  <li>Entries listed here</li>
+  <li>Entries listed here</li>
+</ul>
+{{/if}}
+</template>
 
-  {{#if usersearch}}
-  {{> usersearch }}
-  {{/if}}
-
-  {{#if userstats}}
-  Test Stats
-  {{/if}}
-
-  {{#if usersocial}}
-  Test Social
-  {{/if}}
-
-  {{#if usersettings}}
-  Test Settings
-  {{/if}}
-  {{else}}
-  <h1 style="display: inline; text-align: center;">Daypage</h1>
-  <p>Log in to make this actually do something</p>
-  {{/if}}
+<template name="editor">
+{{#if currentUser}}
+<div id="toolbar" style="display: none;">
+  <a data-wysihtml5-command="bold" title="CTRL+B">bold</a> |
+  <a data-wysihtml5-command="italic" title="CTRL+I">italic</a> |
+  <a data-wysihtml5-command="createLink">insert link</a> |
+  <a data-wysihtml5-command="insertImage">insert image</a> |
+  <a data-wysihtml5-command="formatBlock" data-wysihtml5-command-value="h1">h1</a> |
+  <a data-wysihtml5-command="formatBlock" data-wysihtml5-command-value="h2">h2</a> |
+  <a data-wysihtml5-command="insertUnorderedList">insertUnorderedList</a> |
+  <a data-wysihtml5-command="insertOrderedList">insertOrderedList</a> |
+  <a data-wysihtml5-command="foreColor" data-wysihtml5-command-value="red">red</a> |
+  <a data-wysihtml5-command="foreColor" data-wysihtml5-command-value="green">green</a> |
+  <a data-wysihtml5-command="foreColor" data-wysihtml5-command-value="blue">blue</a> |
+  <a data-wysihtml5-command="insertSpeech">speech</a>
+  <a data-wysihtml5-action="change_view">switch to html view</a>
+  
+  <div data-wysihtml5-dialog="createLink" style="display: none;">
+    <label>
+      Link:
+      <input data-wysihtml5-dialog-field="href" value="http://">
+    </label>
+    <a data-wysihtml5-dialog-action="save">OK</a>&nbsp;<a data-wysihtml5-dialog-action="cancel">Cancel</a>
+  </div>
+  
+  <div data-wysihtml5-dialog="insertImage" style="display: none;">
+    <label>
+      Image:
+      <input data-wysihtml5-dialog-field="src" value="http://">
+    </label>
+    <label>
+      Align:
+      <select data-wysihtml5-dialog-field="className">
+        <option value="">default</option>
+        <option value="wysiwyg-float-left">left</option>
+        <option value="wysiwyg-float-right">right</option>
+      </select>
+    </label>
+    <a data-wysihtml5-dialog-action="save">OK</a>&nbsp;<a data-wysihtml5-dialog-action="cancel">Cancel</a>
+  </div>
+  
+</div>
+<textarea id="writingbox" class="writingbox" placeholder="text goes here"></textarea>
+{{/if}}
 </template>
 
 <template name="usersearch">
@@ -73,7 +86,6 @@
   <p>{{ date }}: {{ content }}</p>
   {{/each}}
 </template>
-
 
 <template name="userwrite">
   <div>
@@ -92,6 +104,27 @@
 </template>
 
 <template name="writingbox">
+
+  <div id="wysihtml5-toolbar" style="display: none;">
+    <a data-wysihtml5-command="bold">bold</a>
+    <a data-wysihtml5-command="italic">italic</a>
+    
+    <!-- Some wysihtml5 commands require extra parameters -->
+    <a data-wysihtml5-command="foreColor" data-wysihtml5-command-value="red">red</a>
+    <a data-wysihtml5-command="foreColor" data-wysihtml5-command-value="green">green</a>
+    <a data-wysihtml5-command="foreColor" data-wysihtml5-command-value="blue">blue</a>
+    
+    <!-- Some wysihtml5 commands like 'createLink' require extra paramaters specified by the user (eg. href) -->
+    <a data-wysihtml5-command="createLink">insert link</a>
+    <div data-wysihtml5-dialog="createLink" style="display: none;">
+      <label>
+	Link:
+	<input data-wysihtml5-dialog-field="href" value="http://" class="text">
+      </label>
+      <a data-wysihtml5-dialog-action="save">OK</a> <a data-wysihtml5-dialog-action="cancel">Cancel</a>
+    </div>
+  </div>
+
   <textarea name="writingbox" class="writingbox" id="writingbox" spellcheck="false" placeholder="Write here"></textarea>
 </template>
 
@@ -108,3 +141,5 @@
   <div id="entry-saved" title="Ctrl-S">Saved</div>
   <div id="entry-save" style="display: none;" title="Ctrl-S">Save</div>
 </template>
+
+<!-- END USERWRITE -->
