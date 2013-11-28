@@ -14,6 +14,12 @@ if (Meteor.isClient) {
 	    stylesheets:  "wysihtml5-stylesheet.css",
 	    parserRules:  wysihtml5ParserRules
 	});	
+
+/*	editor.on('load', function() {
+	    // The wysiwyg editor is in the DOM. It's safe to make the plugin call
+	    $(editor.composer.iframe).wysihtml5_size_matters();
+	}); */
+
     }
 
 ////////////////////////////////stuff below may not stay
